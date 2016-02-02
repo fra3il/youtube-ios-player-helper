@@ -391,18 +391,23 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
   return levels;
 }
 
-- (BOOL)webView:(UIWebView *)webView
-    shouldStartLoadWithRequest:(NSURLRequest *)request
-                navigationType:(UIWebViewNavigationType)navigationType {
-  if ([request.URL.host isEqual: self.originURL.host]) {
-    return YES;
-  } else if ([request.URL.scheme isEqual:@"ytplayer"]) {
-    [self notifyDelegateOfYouTubeCallbackUrl:request.URL];
-    return NO;
-  } else if ([request.URL.scheme isEqual: @"http"] || [request.URL.scheme isEqual:@"https"]) {
-    return [self handleHttpNavigationToUrl:request.URL];
-  }
-  return YES;
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    NSURLRequest *request = navigationAction.request;
+    if ([request.URL.host isEqual: self.originURL.host]) {
+    } else if ([request.URL.scheme isEqual:@"ytplayer"]) {
+        [self notifyDelegateOfYouTubeCallbackUrl:request.URL];
+
+        decisionHandler(WKNavigationActionPolicyCancel);
+
+        return;
+    } else if ([request.URL.scheme isEqual: @"http"] || [request.URL.scheme isEqual:@"https"]) {
+        if (![self handleHttpNavigationToUrl:request.URL]) {
+            decisionHandler(WKNavigationActionPolicyCancel);
+
+            return;
+        }
+    }
+    decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 /**
@@ -720,9 +725,8 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
 
   NSString *embedHTML = [NSString stringWithFormat:embedHTMLTemplate, playerVarsJsonString];
   [self.webView loadHTMLString:embedHTML baseURL: self.originURL];
-  [self.webView setDelegate:self];
-  self.webView.allowsInlineMediaPlayback = YES;
-  self.webView.mediaPlaybackRequiresUserAction = NO;
+  self.webView.navigationDelegate = self;
+
   return YES;
 }
 
@@ -795,7 +799,23 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
  * @return JavaScript response from evaluating code.
  */
 - (NSString *)stringFromEvaluatingJavaScript:(NSString *)jsToExecute {
-  return [self.webView stringByEvaluatingJavaScriptFromString:jsToExecute];
+    __block NSString *resultString = nil;
+    __block BOOL finished = NO;
+
+    [self.webView evaluateJavaScript:jsToExecute completionHandler:^(id result, NSError *error) {
+        if (!error) {
+            resultString = [NSString stringWithFormat:@"%@", result];
+        } else {
+            resultString = nil;
+        }
+        finished = YES;
+    }];
+
+    while (!finished) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
+
+    return resultString;
 }
 
 /**
@@ -809,16 +829,23 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
 }
 
 #pragma mark Exposed for Testing
-- (void)setWebView:(UIWebView *)webView {
+- (void)setWebView:(WKWebView *)webView {
   _webView = webView;
 }
 
-- (UIWebView *)createNewWebView {
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:self.bounds];
+- (WKWebView *)createNewWebView {
+    WKWebViewConfiguration *configurations = [[WKWebViewConfiguration alloc] init];
+    configurations.allowsInlineMediaPlayback = YES;
+    configurations.mediaPlaybackRequiresUserAction = NO;
+
+    WKWebView *webView = nil;
+    @autoreleasepool {
+        webView = [[WKWebView alloc] initWithFrame:self.bounds configuration:configurations];
+    }
     webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     webView.scrollView.scrollEnabled = NO;
     webView.scrollView.bounces = NO;
-    
+
     if ([self.delegate respondsToSelector:@selector(playerViewPreferredWebViewBackgroundColor:)]) {
         webView.backgroundColor = [self.delegate playerViewPreferredWebViewBackgroundColor:self];
         if (webView.backgroundColor == [UIColor clearColor]) {

@@ -836,7 +836,11 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
 - (WKWebView *)createNewWebView {
     WKWebViewConfiguration *configurations = [[WKWebViewConfiguration alloc] init];
     configurations.allowsInlineMediaPlayback = YES;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000
+    configurations.requiresUserActionForMediaPlayback = NO;
+#else
     configurations.mediaPlaybackRequiresUserAction = NO;
+#endif
 
     WKWebView *webView = nil;
     @autoreleasepool {

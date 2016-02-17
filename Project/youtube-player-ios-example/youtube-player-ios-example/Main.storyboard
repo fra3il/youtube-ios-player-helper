@@ -47,7 +47,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="mG0-8h-1a8" eventType="touchUpInside" id="auh-hP-flc"/>
+                                            <action selector="buttonPressed:" destination="xdH-It-i5j" eventType="touchUpInside" id="eTs-gJ-vs4"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSd-py-U06">
@@ -59,7 +59,6 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="mG0-8h-1a8" eventType="touchUpInside" id="apP-dj-jdk"/>
                                             <action selector="buttonPressed:" destination="xdH-It-i5j" eventType="touchUpInside" id="pXv-BB-k5H"/>
                                         </connections>
                                     </button>
@@ -69,7 +68,6 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="mG0-8h-1a8" eventType="touchUpInside" id="B7D-Rs-YcX"/>
                                             <action selector="buttonPressed:" destination="xdH-It-i5j" eventType="touchUpInside" id="mhT-tt-Hmy"/>
                                         </connections>
                                     </button>

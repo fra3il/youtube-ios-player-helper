@@ -46,6 +46,10 @@
 }
 
 - (void)playerView:(YTPlayerView *)playerView didPlayTime:(float)playTime {
+    if (self.slider.touchInside || (self.playerView.duration <= 0)) {
+        return;
+    }
+    
     float progress = playTime/self.playerView.duration;
     [self.slider setValue:progress];
 }

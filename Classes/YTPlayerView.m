@@ -63,6 +63,7 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
 @interface YTPlayerView()
 
 @property(nonatomic, strong) NSURL *originURL;
+@property (strong, nonatomic) NSNumber *videoDuration;
 
 @end
 
@@ -802,17 +803,20 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
     __block NSString *resultString = nil;
     __block BOOL finished = NO;
 
-    [self.webView evaluateJavaScript:jsToExecute completionHandler:^(id result, NSError *error) {
-        if (!error) {
-            resultString = [NSString stringWithFormat:@"%@", result];
-        } else {
-            resultString = nil;
-        }
-        finished = YES;
-    }];
-
-    while (!finished) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    if ([jsToExecute hasPrefix:@"player.getDuration();"] && ([self.videoDuration floatValue] > 0)) {
+        resultString = [self.videoDuration stringValue];
+    } else {
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self.webView evaluateJavaScript:jsToExecute completionHandler:^(id result, NSError *error) {
+                if (!error) {
+                    resultString = [NSString stringWithFormat:@"%@", result];   // NSString, NSNumber
+                    if ([jsToExecute hasPrefix:@"player.getDuration();"] && ([result floatValue] > 0)) {
+                            self.videoDuration = result;
+                    }
+                }
+                finished = YES;
+            }];
+        });
     }
 
     return resultString;
@@ -856,7 +860,7 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
             webView.opaque = NO;
         }
     }
-    
+
     return webView;
 }
 

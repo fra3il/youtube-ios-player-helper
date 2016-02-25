@@ -27,7 +27,8 @@
       @"playsinline" : @1,
       @"autohide" : @1,
       @"showinfo" : @0,
-      @"modestbranding" : @1
+      @"modestbranding" : @1,
+      @"autoplay" : @0
   };
   self.playerView.delegate = self;
   [self.playerView loadWithVideoId:videoId playerVars:playerVars];

@@ -64,6 +64,7 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
 
 @property(nonatomic, strong) NSURL *originURL;
 @property (strong, nonatomic) NSNumber *videoDuration;
+@property (nonatomic, getter=isAutoPlay) BOOL autoplay;
 
 @end
 
@@ -537,6 +538,9 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
   }
 
   if ([action isEqual:kYTPlayerCallbackOnReady]) {
+    if (self.isAutoPlay) {
+      [self playVideo];
+    }
     if ([self.delegate respondsToSelector:@selector(playerViewDidBecomeReady:)]) {
       [self.delegate playerViewDidBecomeReady:self];
     }
@@ -672,12 +676,14 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
   if ([playerParams objectForKey:@"playerVars"]) {
     NSMutableDictionary *playerVars = [[NSMutableDictionary alloc] init];
     [playerVars addEntriesFromDictionary:[playerParams objectForKey:@"playerVars"]];
-      
+
     if (![playerVars objectForKey:@"origin"]) {
         self.originURL = [NSURL URLWithString:@"about:blank"];
     } else {
         self.originURL = [NSURL URLWithString: [playerVars objectForKey:@"origin"]];
     }
+
+    self.autoplay = [[playerVars objectForKey:@"autoplay"] boolValue];
   } else {
     // This must not be empty so we can render a '{}' in the output JSON
     [playerParams setValue:[[NSDictionary alloc] init] forKey:@"playerVars"];

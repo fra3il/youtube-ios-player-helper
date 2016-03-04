@@ -12,6 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// DLog
+#ifdef DEBUG
+#   define DLog(fmt, ...) NSLog((@"%s[Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#   define DLog(...)
+#endif
+
 #import "YTPlayerView.h"
 
 // These are instances of NSString because we get them from parsing a URL. It would be silly to
@@ -63,7 +70,6 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
 @interface YTPlayerView()
 
 @property(nonatomic, strong) NSURL *originURL;
-@property (strong, nonatomic) NSNumber *videoDuration;
 @property (nonatomic, getter=isAutoPlay) BOOL autoplay;
 
 @end
@@ -101,19 +107,23 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
 #pragma mark - Player methods
 
 - (void)playVideo {
+    DLog();
   [self stringFromEvaluatingJavaScript:@"player.playVideo();"];
 }
 
 - (void)pauseVideo {
+    DLog();
   [self notifyDelegateOfYouTubeCallbackUrl:[NSURL URLWithString:[NSString stringWithFormat:@"ytplayer://onStateChange?data=%@", kYTPlayerStatePausedCode]]];
   [self stringFromEvaluatingJavaScript:@"player.pauseVideo();"];
 }
 
 - (void)stopVideo {
+    DLog();
   [self stringFromEvaluatingJavaScript:@"player.stopVideo();"];
 }
 
 - (void)seekToSeconds:(float)seekToSeconds allowSeekAhead:(BOOL)allowSeekAhead {
+    DLog();
   NSNumber *secondsValue = [NSNumber numberWithFloat:seekToSeconds];
   NSString *allowSeekAheadValue = [self stringForJSBoolean:allowSeekAhead];
   NSString *command = [NSString stringWithFormat:@"player.seekTo(%@, %@);", secondsValue, allowSeekAheadValue];
@@ -807,23 +817,31 @@ NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.goo
  */
 - (NSString *)stringFromEvaluatingJavaScript:(NSString *)jsToExecute {
     __block NSString *resultString = nil;
-    __block BOOL finished = NO;
+    __block BOOL shouldKeepRunning = YES;
 
-    if ([jsToExecute hasPrefix:@"player.getDuration();"] && ([self.videoDuration floatValue] > 0)) {
-        resultString = [self.videoDuration stringValue];
-    } else {
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [self.webView evaluateJavaScript:jsToExecute completionHandler:^(id result, NSError *error) {
-                if (!error) {
-                    resultString = [NSString stringWithFormat:@"%@", result];   // NSString, NSNumber
-                    if ([jsToExecute hasPrefix:@"player.getDuration();"] && ([result floatValue] > 0)) {
-                            self.videoDuration = result;
-                    }
-                }
-                finished = YES;
-            }];
-        });
-    }
+    [self.webView evaluateJavaScript:jsToExecute completionHandler:^(id result, NSError *error) {
+        DLog(@"%@", jsToExecute);
+        if (!error) {
+            DLog(@"> %@", result);
+
+            resultString = [NSString stringWithFormat:@"%@", result];   // NSString, NSNumber
+        } else {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000
+            /*
+             WKErrorJavaScriptResultTypeIsUnsupported
+                The result of JavaScript execution could not be returned.
+             */
+            if (error.code != WKErrorJavaScriptResultTypeIsUnsupported) {
+                DLog(@"> %@, %@", result, error);
+            }
+#else
+            DLog(@"> %@, %@", result, error);
+#endif
+        }
+        shouldKeepRunning = NO;
+    }];
+
+    while (shouldKeepRunning && [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
 
     return resultString;
 }

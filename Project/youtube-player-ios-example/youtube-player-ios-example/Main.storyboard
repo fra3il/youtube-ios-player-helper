@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="O5e-ID-Usg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="O5e-ID-Usg">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller - Single Video-->
+        <!--SingleVideoViewController-->
         <scene sceneID="SE4-0M-ApC">
             <objects>
-                <viewController id="xdH-It-i5j" userLabel="View Controller - Single Video" customClass="SingleVideoViewController" sceneMemberID="viewController">
+                <viewController id="xdH-It-i5j" userLabel="SingleVideoViewController" customClass="SingleVideoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JBx-Yq-cGz"/>
                         <viewControllerLayoutGuide type="bottom" id="XwI-4j-DQh"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="sbA-he-PJg" userLabel="Video View">
+                    <view key="view" contentMode="scaleToFill" id="sbA-he-PJg">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -47,7 +47,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="xdH-It-i5j" eventType="touchUpInside" id="eTs-gJ-vs4"/>
+                                            <action selector="buttonPressed:" destination="xdH-It-i5j" eventType="touchUpInside" id="MH5-8P-GGj"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PSd-py-U06">
@@ -59,7 +59,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="xdH-It-i5j" eventType="touchUpInside" id="pXv-BB-k5H"/>
+                                            <action selector="buttonPressed:" destination="xdH-It-i5j" eventType="touchUpInside" id="POc-yF-aCt"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PAN-i4-3Cg">
@@ -68,7 +68,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="xdH-It-i5j" eventType="touchUpInside" id="mhT-tt-Hmy"/>
+                                            <action selector="buttonPressed:" destination="xdH-It-i5j" eventType="touchUpInside" id="yZe-Ub-zTf"/>
                                         </connections>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" indicatorStyle="black" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Zu-eb-J9b">
@@ -83,7 +83,7 @@
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="HUZ-Xl-JMB">
                                         <rect key="frame" x="205" y="8" width="349" height="31"/>
                                         <connections>
-                                            <action selector="onSliderChange:" destination="xdH-It-i5j" eventType="touchUpInside" id="8mA-oB-Vkl"/>
+                                            <action selector="onSliderChange:" destination="xdH-It-i5j" eventType="touchUpInside" id="R9V-0O-ljr"/>
                                         </connections>
                                     </slider>
                                 </subviews>
@@ -128,12 +128,12 @@
                     <tabBarItem key="tabBarItem" title="Single Video" id="BsT-DD-gek" userLabel="Single Video"/>
                     <navigationItem key="navigationItem" id="Xb3-pv-0KH"/>
                     <connections>
-                        <outlet property="pauseButton" destination="PSd-py-U06" id="fTw-FQ-6ce"/>
-                        <outlet property="playButton" destination="OcO-Fm-Cbj" id="cHv-tm-c5L"/>
-                        <outlet property="playerView" destination="1p5-Mf-vL6" id="pMh-dU-5eR"/>
-                        <outlet property="slider" destination="HUZ-Xl-JMB" id="ROP-f0-FXM"/>
-                        <outlet property="statusTextView" destination="4Zu-eb-J9b" id="WSv-1t-na5"/>
-                        <outlet property="stopButton" destination="PAN-i4-3Cg" id="yAf-by-o5q"/>
+                        <outlet property="pauseButton" destination="PSd-py-U06" id="P8B-AE-rep"/>
+                        <outlet property="playButton" destination="OcO-Fm-Cbj" id="kUF-G8-NVP"/>
+                        <outlet property="playerView" destination="1p5-Mf-vL6" id="CmJ-hn-0pM"/>
+                        <outlet property="slider" destination="HUZ-Xl-JMB" id="oh6-5L-fAg"/>
+                        <outlet property="statusTextView" destination="4Zu-eb-J9b" id="VHE-Ea-pIh"/>
+                        <outlet property="stopButton" destination="PAN-i4-3Cg" id="vot-sm-uo9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mG0-8h-1a8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -159,10 +159,10 @@
             </objects>
             <point key="canvasLocation" x="-2403.75" y="81.338028169014081"/>
         </scene>
-        <!--ViewController - Playlist-->
+        <!--PlaylistViewController-->
         <scene sceneID="gbJ-mL-ovU">
             <objects>
-                <viewController id="Aw4-tQ-f45" userLabel="ViewController - Playlist" customClass="PlaylistViewController" sceneMemberID="viewController">
+                <viewController id="Aw4-tQ-f45" userLabel="PlaylistViewController" customClass="PlaylistViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tcx-6t-n7r"/>
                         <viewControllerLayoutGuide type="bottom" id="4DN-N0-jMe"/>
@@ -189,7 +189,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="MyW-8f-AYn" eventType="touchUpInside" id="VCr-cT-oHU"/>
+                                            <action selector="buttonPressed:" destination="Aw4-tQ-f45" eventType="touchUpInside" id="xj6-HM-rgB"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YN0-B8-Og5">
@@ -198,7 +198,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="MyW-8f-AYn" eventType="touchUpInside" id="Irk-hy-lcT"/>
+                                            <action selector="buttonPressed:" destination="Aw4-tQ-f45" eventType="touchUpInside" id="gx2-Ct-WxI"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5b7-US-lRD">
@@ -207,7 +207,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="MyW-8f-AYn" eventType="touchUpInside" id="yhy-Vm-HDl"/>
+                                            <action selector="buttonPressed:" destination="Aw4-tQ-f45" eventType="touchUpInside" id="ApC-uf-zov"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIf-gl-XOV">
@@ -222,7 +222,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="MyW-8f-AYn" eventType="touchUpInside" id="akc-nN-ad9"/>
+                                            <action selector="buttonPressed:" destination="Aw4-tQ-f45" eventType="touchUpInside" id="NtG-ih-fBT"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ct5-yw-TI2">
@@ -231,7 +231,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="MyW-8f-AYn" eventType="touchUpInside" id="jvc-xb-Ebw"/>
+                                            <action selector="buttonPressed:" destination="Aw4-tQ-f45" eventType="touchUpInside" id="Omg-Wc-F5M"/>
                                         </connections>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0jQ-qQ-F2l">
@@ -295,13 +295,13 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Playlist" id="Ziy-Wh-RAx" userLabel="Playlist"/>
                     <connections>
-                        <outlet property="nextVideoButton" destination="Ty8-al-E13" id="LEM-cb-O40"/>
-                        <outlet property="pauseButton" destination="YN0-B8-Og5" id="K2t-wE-HEB"/>
-                        <outlet property="playButton" destination="KH2-Ig-fFg" id="cQi-1I-mFM"/>
-                        <outlet property="playerView" destination="I0d-4M-5ek" id="Qxj-8R-ma9"/>
-                        <outlet property="previousVideoButton" destination="Ct5-yw-TI2" id="pr6-b8-GDL"/>
-                        <outlet property="statusTextView" destination="0jQ-qQ-F2l" id="th9-bH-eFP"/>
-                        <outlet property="stopButton" destination="5b7-US-lRD" id="FQL-Aa-wbL"/>
+                        <outlet property="nextVideoButton" destination="Ty8-al-E13" id="01v-QM-Uyg"/>
+                        <outlet property="pauseButton" destination="YN0-B8-Og5" id="8Ye-YB-Ii1"/>
+                        <outlet property="playButton" destination="KH2-Ig-fFg" id="7ng-Fy-w5t"/>
+                        <outlet property="playerView" destination="I0d-4M-5ek" id="0Na-ug-g6K"/>
+                        <outlet property="previousVideoButton" destination="Ct5-yw-TI2" id="p6q-ma-ZH5"/>
+                        <outlet property="statusTextView" destination="0jQ-qQ-F2l" id="XOw-cq-jgT"/>
+                        <outlet property="stopButton" destination="5b7-US-lRD" id="cs1-o5-yVQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MyW-8f-AYn" userLabel="First Responder" sceneMemberID="firstResponder"/>

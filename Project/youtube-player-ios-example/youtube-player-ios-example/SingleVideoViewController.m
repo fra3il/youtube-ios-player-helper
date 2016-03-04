@@ -32,13 +32,6 @@
   };
   self.playerView.delegate = self;
   [self.playerView loadWithVideoId:videoId playerVars:playerVars];
-
-    
-    
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(receivedPlaybackStartedNotification:)
-                                               name:@"Playback started"
-                                             object:nil];
 }
 
 - (void)playerView:(YTPlayerView *)ytPlayerView didChangeToState:(YTPlayerState)state {
@@ -63,7 +56,6 @@
 
 - (IBAction)buttonPressed:(id)sender {
   if (sender == self.playButton) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Playback started" object:self];
     [self.playerView playVideo];
   } else if (sender == self.stopButton) {
     [self.playerView stopVideo];
@@ -80,12 +72,6 @@
   } else if (sender == self.startButton) {
     [self.playerView seekToSeconds:0 allowSeekAhead:YES];
     [self appendStatusText:@"Seeking to beginning\n"];
-  }
-}
-
-- (void)receivedPlaybackStartedNotification:(NSNotification *) notification {
-  if([notification.name isEqual:@"Playback started"] && notification.object != self) {
-    [self.playerView pauseVideo];
   }
 }
 

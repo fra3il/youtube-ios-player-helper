@@ -30,18 +30,11 @@
     @"modestbranding" : @1
   };
   self.playerView.delegate = self;
-
   [self.playerView loadWithPlaylistId:playlistId playerVars:playerVars];
-
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(receivedPlaybackStartedNotification:)
-                                               name:@"Playback started"
-                                             object:nil];
 }
 
 - (IBAction)buttonPressed:(id)sender {
   if (sender == self.playButton) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Playback started" object:self];
     [self.playerView playVideo];
   } else if (sender == self.pauseButton) {
     [self.playerView pauseVideo];
@@ -53,12 +46,6 @@
   } else if (sender == self.previousVideoButton) {
     [self appendStatusText:@"Loading previous video in playlist\n"];
     [self.playerView previousVideo];
-  }
-}
-
-- (void)receivedPlaybackStartedNotification:(NSNotification *) notification {
-  if([notification.name isEqual:@"Playback started"] && notification.object != self) {
-    [self.playerView pauseVideo];
   }
 }
 
